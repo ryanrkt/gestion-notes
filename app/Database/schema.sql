@@ -10,6 +10,8 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO users (email, mdp) VALUES ('admin@gmail.com', 'admin123');
+
 CREATE TABLE etudiants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(150),
@@ -55,3 +57,5 @@ CREATE TABLE notes (
 );
 
 -- test miaro
+
+INSERT INTO users (email, mdp) VALUES ('admin@gmail.com', 'admin123');

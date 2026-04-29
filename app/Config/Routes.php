@@ -6,27 +6,17 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-$routes->get('/login', 'AuthController::index');
-
-
-$routes->get('/', 'LivresController::index');
-
-$routes->group('livres', function($routes) {
-    
-    // /livres
-    $routes->get('/', 'LivresController::index');            
-    
-    //  /livre/voir/1
-    $routes->get('voir/(:num)', 'LivresController::view/$1');  
-
-    
-    $routes->get('creer', 'LivresController::create');       
-    $routes->post('stocker', 'LivresController::store');     
-
-    // /livre/supprimer/1
-    $routes->post('supprimer/(:num)', 'LivresController::delete/$1'); 
-    
-    //  Emprunts et Retours
-    $routes->post('emprunter/(:num)', 'Emprunts::sortir/$1');
-    $routes->post('rendre/(:num)', 'Emprunts::retour/$1');
+// Auth (Personne 1)
+$routes->group('auth', static function (RouteCollection $routes) {
+    $routes->get('login', 'AuthController::index');
+    $routes->post('login', 'AuthController::login');
+    $routes->get('logout', 'AuthController::logout');
 });
+
+// Alias legacy
+$routes->get('login', 'AuthController::index');
+$routes->post('login', 'AuthController::login');
+
+// Dashboard (protégé)
+$routes->get('/', 'DashboardController::index', ['filter' => 'auth']);
+$routes->get('dashboard', 'DashboardController::index', ['filter' => 'auth']);
